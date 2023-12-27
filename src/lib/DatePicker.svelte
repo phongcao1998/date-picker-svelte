@@ -13,6 +13,7 @@
 		return new Date(d.getTime())
 	}
 
+	let monthDiv: HTMLDivElement, yearDiv: HTMLDivElement
 	/** Date value. It's `null` if no date is selected */
 	export let value: Date | null = null
 
@@ -235,11 +236,14 @@
 					/></svg
 				>
 			</button>
-			<div class="dropdown month">
+			<div class="dropdown month" tabindex="-1" bind:this={monthDiv}>
 				<select
 					value={browseMonth}
 					on:keydown={monthKeydown}
-					on:input={(e) => setMonth(parseInt(e.currentTarget.value))}
+					on:input={(e) => {
+						setMonth(parseInt(e.currentTarget.value))
+						monthDiv.focus()
+					}}
 				>
 					{#each iLocale.months as monthName, i}
 						<option
@@ -265,10 +269,13 @@
 					><path d="M6 0l12 12-12 12z" transform="rotate(90, 12, 12)" /></svg
 				>
 			</div>
-			<div class="dropdown year">
+			<div class="dropdown year" tabindex="-1" bind:this={yearDiv}>
 				<select
 					value={browseYear}
-					on:input={(e) => setYear(parseInt(e.currentTarget.value))}
+					on:input={(e) => {
+						setYear(parseInt(e.currentTarget.value))
+						yearDiv.focus()
+					}}
 					on:keydown={yearKeydown}
 				>
 					{#each years as v}
